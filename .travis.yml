@@ -1,0 +1,20 @@
+language: csharp
+solution: WindowsBashHere.sln
+
+script:
+    - xbuild "WindowsBashHere.sln"
+    - mkdir Release/
+    - cp -R WindowsBashHere/bin/Debug/* Release/
+    - zip -r release.zip Release
+    
+notifications:
+    email: false
+
+deploy:
+    provider: releases
+    api_key: ${api_key}
+    file: "release.zip"
+    skip_cleanup: true
+    on:
+        all_branches: true
+        tags: true
